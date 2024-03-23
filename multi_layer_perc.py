@@ -11,11 +11,12 @@ def sigmoid_derivative(x):
 
 
 def step_function(y, threshold=0.5):
-    return  np.where(y >= threshold, 1, 0)
+    return np.where(y >= threshold, 1, 0)
 
 
 class MLP:
-    def __init__(self,activation_func, activation_derivative, num_iterations=100000, learning_rate=1e-1, input_layer=2, hidden_layer=3, output_layer=1):
+    def __init__(self, activation_func, activation_derivative, num_iterations=100000, learning_rate=1e-1, input_layer=2,
+                 hidden_layer=3, output_layer=1):
         self.iterations = num_iterations
         self.learning_rate = learning_rate
         self.activation_func = activation_func
@@ -38,8 +39,8 @@ class MLP:
         return -(np.sum(y * np.log(p) + (1 - y) * np.log(1 - p)) / len(y))
 
     def back_propagation(self, X, y, z, h, zh, p):
-        dwh = np.dot(h.T, (p - y))
-        d1 = np.multiply((p - y), self.weights_2.T)
+        dwh = np.dot(h.T, p - y)
+        d1 = np.multiply(p - y, self.weights_2.T)
         d2 = np.multiply(d1, self.activation_derivative(z))
         dw = np.dot(X.T, d2)
         return dwh, dw
@@ -57,6 +58,7 @@ class MLP:
         y_pred_binary = step_function(y_pred)
         return y_pred_binary
 
+
     def plot_cost_func(self):
         plt.grid()
         plt.plot(range(self.iterations), self.costs)
@@ -66,14 +68,17 @@ class MLP:
         plt.show()
 
 
-# Przykład działania na bramkach logicznych
-X = np.array([[1, 0], [0, 1], [0, 0], [1, 1]])
-Y = np.array([[1], [1], [0], [0]])
+if __name__ == '__main__':
+    # Przykład działania na bramkach logicznych
+    X = np.array([[1, 0], [0, 1], [0, 0], [1, 1]])
+    Y = np.array([[1], [1], [0], [0]])
 
-mlp = MLP(sigmoid, sigmoid_derivative)
-mlp.train(X, Y)
-print(mlp.predict([1, 0]))
-mlp.plot_cost_func()
+    print(X.shape)
+    print(Y.shape)
+    mlp = MLP(sigmoid, sigmoid_derivative)
+    mlp.train(X, Y)
+    print(mlp.predict([1, 0]))
+    mlp.plot_cost_func()
 
 
 
