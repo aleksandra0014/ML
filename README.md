@@ -1,0 +1,1 @@
+The folder contains my own implemenations of known issues and algorithms from ML, which I do from scratch without using known libraries, the purpose of this is to understand what is going on "underneath". 
